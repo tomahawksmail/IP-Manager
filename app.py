@@ -8,7 +8,7 @@ app = Flask(__name__)
 BLACKLIST_FILE = 'blacklist.txt'
 WHITELIST_FILE = 'whitelist.txt'
 
-port = 5061
+port = 8027
 
 def load_ips(file):
     if not os.path.exists(file):
