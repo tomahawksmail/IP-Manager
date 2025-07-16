@@ -7,4 +7,4 @@ services:
     restart: unless-stopped
     volumes:
       - /var/www/html/blacklist.txt:/app/blacklist.txt
-      - /var/www/html/blacklist.txt:/app/whitelist.txt
+      - /var/www/html/whitelist.txt:/app/whitelist.txt
