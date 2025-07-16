@@ -32,4 +32,4 @@ A simple Flask web app to manage Blacklist and Whitelist IP networks, with flexi
 2. Build the Docker image:
 
 ```bash
-docker build -t flask-ip-manager .
+docker build -t ip-manager .
