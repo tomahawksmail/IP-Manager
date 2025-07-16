@@ -1,7 +1,7 @@
 version: '3'
 services:
   ip-manager:
-    image: ip-manager:latest
+    image: ip-manager:1
     ports:
       - "8027:8027"
     restart: unless-stopped
