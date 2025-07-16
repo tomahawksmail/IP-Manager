@@ -1,0 +1,9 @@
+version: '3'
+services:
+  ipmanager:
+    build: .
+    ports:
+      - "5061:5061"
+    volumes:
+      - ./blacklist.txt:/app/blacklist.txt
+      - ./whitelist.txt:/app/whitelist.txt

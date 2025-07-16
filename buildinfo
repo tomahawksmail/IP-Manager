@@ -1,0 +1,5 @@
+# Build image
+docker build -t flask-ip-manager .
+
+# Run as a container
+docker run -d --name ipmanager -p 5061:5061 flask-ip-manager

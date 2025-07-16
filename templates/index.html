@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+<head>
+  <title>IP Manager</title>
+  <style>
+    body {
+      background-color: #121212;
+      color: #e0e0e0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 30px;
+    }
+    h1, h2 { color: #4FC3F7; }
+    .tabs {
+      margin-bottom: 20px;
+    }
+    .tabs a {
+      margin-right: 10px;
+      text-decoration: none;
+      font-weight: bold;
+      color: #ccc;
+      padding: 6px 10px;
+      border-radius: 4px;
+      background-color: #2a2a2a;
+    }
+    .tabs a.active {
+      background-color: #4FC3F7;
+      color: #000;
+    }
+    form {
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      background: #1e1e1e;
+      color: #eee;
+      border: 1px solid #555;
+      padding: 6px 10px;
+      border-radius: 4px;
+      width: 240px;
+    }
+    button {
+      background: #4FC3F7;
+      color: #121212;
+      border: none;
+      padding: 6px 10px;
+      margin-left: 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover {
+      background: #29B6F6;
+    }
+    .msg {
+      margin-top: 10px;
+      font-weight: bold;
+      color: #81D4FA;
+    }
+    summary {
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1.1em;
+      color: #4FC3F7;
+    }
+    details {
+      background: #1e1e1e;
+      margin: 8px 0;
+      border-radius: 6px;
+      padding: 6px 10px;
+      box-shadow: 0 0 8px rgba(79, 195, 247, 0.2);
+    }
+    ul {
+      list-style-type: none;
+      padding-left: 15px;
+      margin: 5px 0;
+    }
+    li {
+      padding: 4px 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .ip-entry {
+      background: #2a2a2a;
+      padding: 4px 8px;
+      border-radius: 4px;
+      flex-grow: 1;
+      margin-right: 5px;
+    }
+    .found {
+      background: #66BB6A !important;
+      color: black !important;
+    }
+  </style>
+</head>
+<body>
+  <h1>Blocked/Allowed Address Manager</h1>
+
+  <div class="tabs">
+    <a href="/?tab=black" class="{{ 'active' if tab == 'black' else '' }}">🛑 Blacklist</a>
+    <a href="/?tab=white" class="{{ 'active' if tab == 'white' else '' }}">✅ Whitelist</a>
+  </div>
+
+  <form method="post">
+    <input type="text" name="ip" placeholder="e.g., 192.168.1.0/24">
+    <input type="hidden" name="tab" value="{{ tab }}">
+    <button name="action" value="find">🔍 Find</button>
+    <button name="action" value="add">➕ Add</button>
+  </form>
+
+  {% if message %}
+    <div class="msg">{{ message }}</div>
+  {% endif %}
+
+  <h2>{{ '📋 Blacklist' if tab == 'black' else '📋 Whitelist' }} grouped by first octet:</h2>
+
+  {% set grouped_ips = grouped_blacklist if tab == 'black' else grouped_whitelist %}
+  {% for octet, ips in grouped_ips.items() %}
+  {% set detail_id = 'octet-' ~ octet %}
+  <details id="{{ detail_id }}" {% if found_ip and found_ip.split('.')[0] == octet %}open{% endif %}>
+    <summary>{{ octet }}.* ({{ ips|length }} lines)</summary>
+    <ul>
+      {% for ip in ips %}
+        <li>
+          <span class="ip-entry {% if ip == found_ip %}found{% endif %}">{{ ip }}</span>
+          <form method="post" style="display:inline;">
+            <input type="hidden" name="ip" value="{{ ip }}">
+            <input type="hidden" name="tab" value="{{ tab }}">
+            <button name="action" value="delete">🗑️</button>
+          </form>
+        </li>
+      {% endfor %}
+    </ul>
+  </details>
+{% endfor %}
+
+
+
+
+{% if found_ip %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const targetDetail = document.getElementById("octet-{{ found_ip.split('.')[0] }}");
+    if (targetDetail) {
+      targetDetail.setAttribute("open", "true");
+      targetDetail.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  });
+</script>
+{% endif %}
+</body>
+</html>
