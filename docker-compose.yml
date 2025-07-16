@@ -1,9 +1,10 @@
 version: '3'
 services:
-  ip-manager:
+  ipmanager:
     build: .
     ports:
       - "8027:8027"
+    restart: unless-stopped
     volumes:
-      - ./blacklist.txt:/app/blacklist.txt
-      - ./whitelist.txt:/app/whitelist.txt
+      - /var/www/html/blacklist.txt:/app/blacklist.txt
+      - /var/www/html/blacklist.txt:/app/whitelist.txt
