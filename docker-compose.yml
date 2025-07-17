@@ -1,10 +1,10 @@
 version: '3'
 services:
-  ip-manager:
-    image: ip-manager:1
+  python-ip-manager:
+    build: .
     ports:
       - "8027:8027"
     restart: unless-stopped
     volumes:
-      - /var/www/html/blacklist.txt:/app/blacklist.txt
-      - /var/www/html/whitelist.txt:/app/whitelist.txt
+      - /mnt/nfs/shared/lists/blacklist.txt:/app/blacklist.txt
+      - /mnt/nfs/shared/lists/whitelist.txt:/app/whitelist.txt
