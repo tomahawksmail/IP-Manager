@@ -1,0 +1,28 @@
+# /etc/nginx/sites-available/whitelist
+
+server {
+    listen 8087; 
+    server_name localhost;
+
+    location / {
+        root /mnt/nfs/shared/lists; 
+        index whitelist.txt; 
+
+        location = / {
+           try_files $uri $uri/ =404;
+        }
+    }
+}
+
+# /etc/nginx/sites-available/blacklist
+server {
+    listen 8086;
+    server_name localhost;
+
+    root /mnt/nfs/shared/lists;
+    index blacklist.txt;
+
+    location / {
+        try_files $uri $uri/ =404;
+    }
+}
