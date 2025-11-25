@@ -1,4 +1,5 @@
-![IMAGE](IP manager.png)
+
+<img width="1875" height="863" alt="IP manager" src="https://github.com/user-attachments/assets/bb9e3e20-c09c-43a5-88df-5c6e3c4312b4" />
 
 
 # Flask IP Manager
